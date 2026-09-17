@@ -1,0 +1,2 @@
+class ToyJev:
+    pass
