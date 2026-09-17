@@ -85,19 +85,9 @@ class ToyJev:
         for decision in request.decisions:
             start = len(contexts)
             context = f"{request.state}\n\n{decision.question}"
-
-            match decision:
-                case NoulRequest():
-                    candidates = ["yes", "no"]
-                case ChoiceRequest():
-                    candidates = decision.choices
-                case ScoreRequest():
-                    candidates = decision.levels
-
-            for candidate in candidates:
+            for candidate in decision.candidates:
                 contexts.append(context)
                 candidates.append(candidate)
-
             end = len(contexts)
             groups.append((start, end))
 

@@ -1,26 +1,44 @@
+from abc import abstractmethod
 from typing import Annotated, Literal
 
 from pydantic import BaseModel, Field
 
 
-class NoulRequest(BaseModel):
+class _BaseDecisionRequest(BaseModel):
+    @property
+    @abstractmethod
+    def candidates(self) -> list[str]:
+        """Return the candidate options for this decision."""
+        pass
+
+
+class NoulRequest(_BaseDecisionRequest):
     type: Literal["noul"] = "noul"
     question: str
 
-    def choices(self) -> list[str]:
+    @property
+    def candidates(self) -> list[str]:
         return ["yes", "no"]
 
 
-class ChoiceRequest(BaseModel):
+class ChoiceRequest(_BaseDecisionRequest):
     type: Literal["choice"] = "choice"
     question: str
     choices: list[str]
 
+    @property
+    def candidates(self) -> list[str]:
+        return self.choices
 
-class ScoreRequest(BaseModel):
+
+class ScoreRequest(_BaseDecisionRequest):
     type: Literal["score"] = "score"
     question: str
     levels: list[str]
+
+    @property
+    def candidates(self) -> list[str]:
+        return self.levels
 
 
 DecisionRequest = Annotated[
