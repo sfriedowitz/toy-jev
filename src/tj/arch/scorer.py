@@ -12,7 +12,6 @@ class DecisionScorer(nn.Module):
         hidden_dim: int = 256,
     ):
         super().__init__()
-
         self.network = nn.Sequential(
             nn.Linear(input_dim, hidden_dim),
             nn.ReLU(),

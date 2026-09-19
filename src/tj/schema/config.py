@@ -1,14 +1,21 @@
 from pydantic import BaseModel
 
 
-class EncoderConfig(BaseModel):
-    model_name: str
+class CrossEncoderConfig(BaseModel):
+    base_model: str
+
+
+class CandidateEncoderConfig(BaseModel):
+    embedding_dim: int = 256
+    num_heads: int = 4
+    num_layers: int = 1
 
 
 class ScorerConfig(BaseModel):
     hidden_dim: int = 256
 
 
-class JevConfig(BaseModel):
-    encoder: EncoderConfig
+class SystemOneConfig(BaseModel):
+    cross_encoder: CrossEncoderConfig
+    candidate_encoder: CandidateEncoderConfig
     scorer: ScorerConfig
